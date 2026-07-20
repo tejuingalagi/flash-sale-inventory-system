@@ -12,7 +12,7 @@ import lombok.Builder;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder 
 public class User {
 
     @Id
