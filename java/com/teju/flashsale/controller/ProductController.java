@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/admin/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -18,22 +19,15 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // Admin: Create Product
-    @PostMapping("/admin/products")
+    @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@RequestBody CreateProductRequest request) {
         ProductResponse response = productService.createProduct(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // Admin: View All Products
-    @GetMapping("/admin/products")
-    public ResponseEntity<List<ProductResponse>> getAllProductsAdmin() {
-        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
-    }
-
-    // Public: View Products
-    @GetMapping("/products")
-    public ResponseEntity<List<ProductResponse>> getPublicProducts() {
-        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
+        List<ProductResponse> products = productService.getAllProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

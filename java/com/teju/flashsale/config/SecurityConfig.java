@@ -32,17 +32,12 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-            	    .requestMatchers(
-            	            "/auth/**",
-            	            "/swagger-ui/**",
-            	            "/v3/api-docs/**",
-            	            "/products"
-            	    ).permitAll()
-
+            	    .requestMatchers("/auth/**").permitAll()
+            	    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
             	    .requestMatchers("/admin/**").hasRole("ADMIN")
-
             	    .anyRequest().authenticated()
-            	)
+            	
+            )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
