@@ -3,6 +3,9 @@ package com.teju.flashsale.controller;
 import com.teju.flashsale.dto.CreateProductRequest;
 import com.teju.flashsale.dto.ProductResponse;
 import com.teju.flashsale.service.ProductService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,7 @@ public class ProductController {
 
     // Admin: Create Product
     @PostMapping("/admin/products")
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody CreateProductRequest request) {
+    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody CreateProductRequest request) {
         ProductResponse response = productService.createProduct(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -35,5 +38,15 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<ProductResponse>> getPublicProducts() {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    }
+    
+    @PutMapping("/admin/products/{id}")
+    public ResponseEntity<ProductResponse> updateProduct(
+            @PathVariable Long id,
+            @Valid @RequestBody CreateProductRequest request) {
+
+        ProductResponse response = productService.updateProduct(id, request);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

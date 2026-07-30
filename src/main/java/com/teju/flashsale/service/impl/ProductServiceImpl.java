@@ -62,4 +62,30 @@ public class ProductServiceImpl implements ProductService {
                 })
                 .collect(Collectors.toList());
     }
+    @Override
+    @Transactional
+    public ProductResponse updateProduct(Long productId, CreateProductRequest request) {
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+
+        productRepository.save(product);
+
+        Inventory inventory = inventoryRepository.findByProductId(productId)
+                .orElseThrow(() -> new RuntimeException("Inventory not found"));
+
+        inventory.setAvailableStock(request.getInitialStock());
+
+        inventoryRepository.save(inventory);
+
+        return new ProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                inventory.getAvailableStock()
+        );
+    }
 }
