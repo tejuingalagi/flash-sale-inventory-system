@@ -1,6 +1,8 @@
 package com.teju.flashsale.controller;
 
 import com.teju.flashsale.dto.OrderResponse;
+import com.teju.flashsale.dto.OrderHistoryResponse;
+import java.util.List;
 import com.teju.flashsale.dto.PurchaseRequest;
 import com.teju.flashsale.service.OrderService;
 import org.springframework.http.HttpStatus;
@@ -25,5 +27,12 @@ public class OrderController {
         // We'll look up the actual userId from email inside the service now
         OrderResponse response = orderService.purchaseItem(request, email);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    
+    @GetMapping("/my-orders")
+    public ResponseEntity<List<OrderHistoryResponse>> getMyOrders(Authentication authentication) {
+        String email = authentication.getName();
+        List<OrderHistoryResponse> orders = orderService.getMyOrders(email);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 }
