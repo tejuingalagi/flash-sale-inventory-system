@@ -88,4 +88,20 @@ public class ProductServiceImpl implements ProductService {
                 inventory.getAvailableStock()
         );
     }
+    @Override
+    @Transactional
+    public void deleteProduct(Long productId) {
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        Inventory inventory = inventoryRepository.findByProductId(productId)
+                .orElseThrow(() -> new RuntimeException("Inventory not found"));
+
+        inventoryRepository.delete(inventory);
+
+        productRepository.delete(product);
+    }
+    
+    
 }
