@@ -53,7 +53,7 @@ Iteration 10: 409 Conflict
 
 *(Note: 4 successes in this particular run, matching the stock available at the time of the test.)*
 
-Verified against the database — the `orders` table contains exactly as many rows for that product as there were successful (`201`) responses, confirming no double-counting or inconsistency between the API and the database.
+Verified against the database: the orders table contains exactly the same number of rows as successful (201 Created) purchase requests, confirming that no overselling or duplicate orders occurred.
 
 
 ---
