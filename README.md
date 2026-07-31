@@ -34,7 +34,7 @@ If two requests race to update the same row, only the first succeeds — the sec
 
 ### Proof: Concurrency Test
 
-A product was created with **3 units of stock**, then **10 simultaneous purchase requests** were fired using Postman's Collection Runner.
+A product was created with **4 units of stock**, then **10 simultaneous purchase requests** were fired using Postman's Collection Runner.
 
 **Result: exactly 4 requests succeeded (`201 Created`), the remaining 6 were cleanly rejected (`409 Conflict`)** — never more than the available stock, even under rapid concurrent load.
 
