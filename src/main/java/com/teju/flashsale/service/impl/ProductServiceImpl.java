@@ -103,5 +103,29 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
     
+    @Override
+    public List<ProductResponse> searchProducts(String name) {
+
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
+
+        return products.stream()
+                .map(product -> {
+                    Inventory inventory = inventoryRepository.findByProductId(product.getId())
+                            .orElse(null);
+
+                    int stock = (inventory != null)
+                            ? inventory.getAvailableStock()
+                            : 0;
+
+                    return new ProductResponse(
+                            product.getId(),
+                            product.getName(),
+                            product.getPrice(),
+                            stock
+                    );
+                })
+                .toList();
+    }
+    
     
 }
