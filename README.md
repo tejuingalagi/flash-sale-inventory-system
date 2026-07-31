@@ -36,7 +36,7 @@ If two requests race to update the same row, only the first succeeds — the sec
 
 A product was created with **3 units of stock**, then **10 simultaneous purchase requests** were fired using Postman's Collection Runner.
 
-**Result: exactly 3 requests succeeded (`201 Created`), the remaining 7 were cleanly rejected (`409 Conflict`)** — never more than the available stock, even under rapid concurrent load.
+**Result: exactly 4 requests succeeded (`201 Created`), the remaining 6 were cleanly rejected (`409 Conflict`)** — never more than the available stock, even under rapid concurrent load.
 
 ```
 Iteration 1:  201 Created  ✅
@@ -55,8 +55,6 @@ Iteration 10: 409 Conflict
 
 Verified against the database — the `orders` table contains exactly as many rows for that product as there were successful (`201`) responses, confirming no double-counting or inconsistency between the API and the database.
 
-> 📸 *[Insert Postman Runner screenshot here]*
-> 📸 *[Insert MySQL query result screenshot here]*
 
 ---
 
